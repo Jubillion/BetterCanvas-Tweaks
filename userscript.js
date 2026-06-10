@@ -5,8 +5,7 @@
 // @description  Fixes everything* wrong with BetterCampus.
 // @author       George K.
 //
-// @match        https://*/*
-//               ^^^ Replace with your Canvas url: ex. https://canvas.somecollege.edu/*
+// @include      https://canvas.*.edu/*
 //
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
@@ -39,14 +38,14 @@
             let els;
             if ((els = Array.from(document.querySelectorAll(mod.s))).length) {
                 for (let el of els) {
-                    mod.f(els);
-                    modifications.splice(modifications.indexOf(mod), 1);
+                    mod.f(el);
                 }
+                modifications.splice(modifications.indexOf(mod), 1);
             } else if ((els = Array.from(document.querySelector("bettercanvas-sidebar").shadowRoot.querySelectorAll(mod.s))).length) {
                 for (let el of els) {
-                    mod.f(els);
-                    modifications.splice(modifications.indexOf(mod), 1);
+                    mod.f(el);
                 }
+                modifications.splice(modifications.indexOf(mod), 1);
             }
         }
         if (!modifications.length) {
