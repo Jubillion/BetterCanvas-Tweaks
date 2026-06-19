@@ -24,6 +24,8 @@
         {s: ".lucide-ellipsis", f: rem(2)},
         {s: ".w-\\[13px\\].h-\\[13px\\]", f: rem(4)},
         {s: ".flex.flex-col.items-center.gap-1\\.5.w-full", f: rem(0)},
+        {s: ".right-of-crumbs.right-of-crumbs-no-reverse", f: rem(0)},
+        {s: ".sidebar-edge-hover", f: rem(0)},
         {s: ".flex.items-center.justify-center.cursor-pointer.px-2.py-1.mt-4.mb-2.select-none.group.relative.rounded-md > div", f: rem(0)},
         {s: ".flex.items-center.justify-center.cursor-pointer.px-2.py-1.mt-4.mb-2.select-none.group.relative.rounded-md > span", f: rem(0)},
         {
@@ -31,6 +33,8 @@
             f: repClass("mt-4", "mt-0"),
         },
         {s: "#doc_preview > div", f: restyle({height: "", resize: "none"})},
+        {s: "#bettercanvas-sidebar", f: (el) => {el.style.width = el.offsetWidth * 1.5 + "px"}},
+        {s: "#wrapper", f: delay(restyle({marginLeft: "calc(var(--bcsidebarwidth) * 1.5)"}), 1e3)},
     ];
 
     function modifyAll() {
@@ -41,7 +45,7 @@
                     mod.f(el);
                 }
                 modifications.splice(modifications.indexOf(mod), 1);
-            } else if ((els = Array.from(document.querySelector("bettercanvas-sidebar").shadowRoot.querySelectorAll(mod.s))).length) {
+            } else if ((els = Array.from(document.querySelector("bettercampus-element")?.shadowRoot?.querySelectorAll(mod.s) ?? [])).length) {
                 for (let el of els) {
                     mod.f(el);
                 }
@@ -54,6 +58,7 @@
     }
 
     const int = setInterval(modifyAll, 100);
+    setTimeout(clearInterval, 1e4, int);
 
     function rem(ct) {
         return (el) => {
@@ -76,5 +81,10 @@
                 el.style[key] = keyVals[key];
             }
         }
+    }
+
+    function delay(f, ms) {
+        return (el) =>
+            setTimeout(f, ms, el);
     }
 })();
